@@ -4,8 +4,8 @@ import { openAuthSessionAsync } from "expo-web-browser";
 
 export const config = {
   platform: "com.mdkw.appwrite",
-  endpoint: "process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT",
-  projectId: "process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID",
+  endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
+  projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
 };
 
 export const client = new Client();
@@ -54,7 +54,6 @@ export async function login() {
     }
 
     return true;
-
   } catch (error) {
     console.log(error);
     return false;
@@ -62,29 +61,29 @@ export async function login() {
 }
 
 export async function logout() {
-    try {
-        await account.deleteSession("current");
-        return true;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
+  try {
+    const result = await account.deleteSession("current");
+    return result;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 }
 
-export async function getUser() {
-    try {
-        const user = await account.get();
+export async function getCurrentUser() {
+  try {
+    const user = await account.get();
 
-        if (user.$id) {
-            const userAvatar = avatar.getInitials(user.name)
-            return {
-                ...user,
-                avatar: userAvatar.toString(),
-            }
-        }
-
-    } catch (error) {
-        console.log(error);
-        return null;
+    if (user.$id) {
+      const userAvatar = avatar.getInitials(user.name);
+      return {
+        ...user,
+        avatar: userAvatar.toString(),
+      };
     }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
