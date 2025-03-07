@@ -1,6 +1,7 @@
 import { Text, View, SafeAreaView, Image } from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
+import Search from "@/components/Search";
 
 export default function Index() {
   const { user, refetch } = useGlobalContext();
@@ -33,6 +34,7 @@ export default function Index() {
           </View>
           <Image source={icons.bell} resizeMode="contain" className="size-5"/>
         </View>
+        <Search />
       </View>
     </SafeAreaView>
   );
