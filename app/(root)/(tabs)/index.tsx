@@ -24,7 +24,10 @@ export default function Index() {
       <View className="px-5">
         <View className="flex flex-row items-center justify-between">
           <View className="flex flex-row items-center gap-3">
-            <Image source={{ uri: user?.avatar }} className="size-12 relative rounded-full"/>
+            <Image
+              source={{ uri: user?.avatar }}
+              className="size-12 relative rounded-full"
+            />
             <View>
               <Text className="text-s font-rubik-light text-black-200">
                 {getGreeting()},
@@ -34,9 +37,9 @@ export default function Index() {
               </Text>
             </View>
           </View>
-          <Image source={icons.bell} resizeMode="contain" className="size-5"/>
+          <Image source={icons.bell} resizeMode="contain" className="size-5" />
         </View>
-          <Search />
+        <Search />
         <View className="flex flex-row items-center justify-between">
           <Text className="text-xl font-rubik-bold text-black-300 mt-5">
             Featured
