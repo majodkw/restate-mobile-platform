@@ -2,6 +2,7 @@ import { Text, View, SafeAreaView, Image } from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
 import Search from "@/components/Search";
+import { Card, FeaturedCard } from "@/components/Cards";
 
 export default function Index() {
   const { user, refetch } = useGlobalContext();
@@ -34,8 +35,36 @@ export default function Index() {
           </View>
           <Image source={icons.bell} resizeMode="contain" className="size-5"/>
         </View>
-        <Search />
+          <Search />
+        <View className="flex flex-row items-center justify-between">
+          <Text className="text-xl font-rubik-bold text-black-300 mt-5">
+            Featured
+          </Text>
+          <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
+            See all
+          </Text>
+        </View>
+        <View className="flex flex-row items-center justify-between gap-5">
+          <FeaturedCard />
+          <FeaturedCard />
+          <FeaturedCard />
+        </View>
+        <View className="flex flex-row items-center justify-between">
+          <Text className="text-xl font-rubik-bold text-black-300 mt-5">
+            Our Recommendation
+          </Text>
+          <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
+            See all
+          </Text>
+        </View>
+        <View className="flex flex-row items-center justify-between gap-5">
+          <Card />
+          <Card />
+          <Card />
+        </View>
+        
       </View>
+        
     </SafeAreaView>
   );
 }
