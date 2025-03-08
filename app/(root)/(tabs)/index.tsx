@@ -3,6 +3,7 @@ import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
 import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
+import Filters from "@/components/Filters";
 
 export default function Index() {
   const { user, refetch } = useGlobalContext();
@@ -57,14 +58,13 @@ export default function Index() {
             See all
           </Text>
         </View>
+        <Filters />
         <View className="flex flex-row items-center justify-between gap-5">
           <Card />
           <Card />
           <Card />
         </View>
-        
       </View>
-        
     </SafeAreaView>
   );
 }
