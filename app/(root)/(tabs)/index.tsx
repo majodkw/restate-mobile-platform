@@ -1,4 +1,11 @@
-import { Text, View, SafeAreaView, Image } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
 import Search from "@/components/Search";
@@ -21,53 +28,71 @@ export default function Index() {
 
   return (
     <SafeAreaView className="bg-white h-full p-5">
-      <View className="px-5">
-        <View className="flex flex-row items-center justify-between">
-          <View className="flex flex-row items-center gap-3">
-            <Image
-              source={{ uri: user?.avatar }}
-              className="size-12 relative rounded-full"
-            />
-            <View>
-              <Text className="text-s font-rubik-light text-black-200">
-                {getGreeting()},
-              </Text>
-              <Text className="text-xl font-rubik-medium text-black-300">
-                {user?.name}
-              </Text>
+      <FlatList
+        data={[1, 2, 3, 4]}
+        renderItem={({ item }) => <Card />}
+        keyExtractor={(item) => item.toString()}
+        numColumns={2}
+        contentContainerClassName="pb-20"
+        columnWrapperClassName="flex gap-5 px-5"
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View className="px-5">
+            <View className="flex flex-row items-center justify-between">
+              <View className="flex flex-row items-center gap-3">
+                <Image
+                  source={{ uri: user?.avatar }}
+                  className="size-12 relative rounded-full"
+                />
+                <View>
+                  <Text className="text-s font-rubik-light text-black-200">
+                    {getGreeting()},
+                  </Text>
+                  <Text className="text-xl font-rubik-medium text-black-300">
+                    {user?.name}
+                  </Text>
+                </View>
+              </View>
+              <Image
+                source={icons.bell}
+                resizeMode="contain"
+                className="size-5"
+              />
             </View>
+            <Search />
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-xl font-rubik-bold text-black-300 mt-5">
+                Featured
+              </Text>
+              <TouchableOpacity>
+                <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
+                  See all
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={[1, 2, 3, 4]}
+              horizontal
+              renderItem={({ item }) => <FeaturedCard />}
+              keyExtractor={(item) => item.toString()}
+              bounces={false}
+              showsHorizontalScrollIndicator={false}
+              contentContainerClassName="flex gap-5"
+            ></FlatList>
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-xl font-rubik-bold text-black-300 mt-5">
+                Our Recommendation
+              </Text>
+              <TouchableOpacity>
+                <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
+                  See all
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Filters />
           </View>
-          <Image source={icons.bell} resizeMode="contain" className="size-5" />
-        </View>
-        <Search />
-        <View className="flex flex-row items-center justify-between">
-          <Text className="text-xl font-rubik-bold text-black-300 mt-5">
-            Featured
-          </Text>
-          <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
-            See all
-          </Text>
-        </View>
-        <View className="flex flex-row items-center justify-between gap-5">
-          <FeaturedCard />
-          <FeaturedCard />
-          <FeaturedCard />
-        </View>
-        <View className="flex flex-row items-center justify-between">
-          <Text className="text-xl font-rubik-bold text-black-300 mt-5">
-            Our Recommendation
-          </Text>
-          <Text className="text-lg font-rubik-medium text-primary-300 mt-5">
-            See all
-          </Text>
-        </View>
-        <Filters />
-        <View className="flex flex-row items-center justify-between gap-5">
-          <Card />
-          <Card />
-          <Card />
-        </View>
-      </View>
+        }
+      ></FlatList>
     </SafeAreaView>
   );
 }
