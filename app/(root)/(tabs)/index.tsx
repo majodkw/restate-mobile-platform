@@ -5,12 +5,14 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
 import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
+import seed from "@/lib/seed";
 
 export default function Index() {
   const { user, refetch } = useGlobalContext();
@@ -28,6 +30,7 @@ export default function Index() {
 
   return (
     <SafeAreaView className="bg-white h-full p-5">
+      <Button title="Seed" onPress={seed} />
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={({ item }) => <Card />}
@@ -71,7 +74,7 @@ export default function Index() {
               </TouchableOpacity>
             </View>
             <FlatList
-              data={[1, 2, 3, 4]}
+              data={[5, 6, 7]}
               horizontal
               renderItem={({ item }) => <FeaturedCard />}
               keyExtractor={(item) => item.toString()}
