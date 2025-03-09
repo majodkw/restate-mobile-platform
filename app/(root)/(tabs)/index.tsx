@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Button,
+  StyleSheet,
 } from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
@@ -30,7 +31,13 @@ export default function Index() {
 
   return (
     <SafeAreaView className="bg-white h-full p-5">
-      <Button title="Seed" onPress={seed} />
+      <View className="flex flex-row items-center justify-center">
+        <TouchableOpacity onPress={seed}>
+          <Text className="text-primary-300 font-rubik-medium text-lg">
+            Seed
+          </Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={({ item }) => <Card />}
