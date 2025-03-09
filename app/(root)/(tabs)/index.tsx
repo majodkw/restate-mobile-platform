@@ -31,13 +31,6 @@ export default function Index() {
 
   return (
     <SafeAreaView className="bg-white h-full p-5">
-      <View className="flex flex-row items-center justify-center">
-        <TouchableOpacity onPress={seed}>
-          <Text className="text-primary-300 font-rubik-medium text-lg">
-            Seed
-          </Text>
-        </TouchableOpacity>
-      </View>
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={({ item }) => <Card />}
