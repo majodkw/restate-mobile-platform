@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
@@ -14,9 +15,38 @@ import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import seed from "@/lib/seed";
+import { router, useLocalSearchParams } from "expo-router";
+import { useAppwrite } from "@/lib/useAppwrite";
+import { getLastestPorperties } from "@/lib/appwrite";
+import { useEffect } from "react";
+import NoResults from "@/components/NoResults";
 
 export default function Index() {
-  const { user, refetch } = useGlobalContext();
+  const { user } = useGlobalContext();
+  const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+
+  const { data: latestProperties, loading: latestPropertiesLoading } =
+    useAppwrite({
+      fn: getLastestPorperties,
+    });
+
+  const {
+    data: properties,
+    loading,
+    refetch,
+  } = useAppwrite({
+    fn: getLastestPorperties,
+    params: { filter: params.filter!, query: params.query!, limit: 6 },
+    skip: true,
+  });
+
+  const handleCardPress = (id: string) => {
+    router.push(`/properties/${id}`);
+  };
+
+  useEffect(() => {
+    refetch({ filter: params.filter!, query: params.query!, limit: 6 });
+  }, []);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -32,13 +62,22 @@ export default function Index() {
   return (
     <SafeAreaView className="bg-white h-full p-5">
       <FlatList
-        data={[1, 2, 3, 4]}
-        renderItem={({ item }) => <Card />}
-        keyExtractor={(item) => item.toString()}
+        data={properties}
+        renderItem={({ item }) => (
+          <Card item={item} onPress={() => handleCardPress(item.$id)} />
+        )}
+        keyExtractor={(item) => item.$id.toString()}
         numColumns={2}
         contentContainerClassName="pb-20"
         columnWrapperClassName="flex gap-5 px-5"
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          loading ? (
+            <ActivityIndicator size="large" className="text-primary-300 mt-5" />
+          ) : (
+            <NoResults />
+          )
+        }
         ListHeaderComponent={
           <View className="px-5">
             <View className="flex flex-row items-center justify-between">
@@ -73,15 +112,30 @@ export default function Index() {
                 </Text>
               </TouchableOpacity>
             </View>
-            <FlatList
-              data={[5, 6, 7]}
-              horizontal
-              renderItem={({ item }) => <FeaturedCard />}
-              keyExtractor={(item) => item.toString()}
-              bounces={false}
-              showsHorizontalScrollIndicator={false}
-              contentContainerClassName="flex gap-5"
-            ></FlatList>
+
+            {latestPropertiesLoading ? (
+              <ActivityIndicator
+                size="large"
+                className="text-primary-300 mt-5"
+              />
+            ) : !latestProperties || latestProperties.length === 0 ? (
+              <NoResults />
+            ) : (
+              <FlatList
+                data={latestProperties}
+                horizontal
+                renderItem={({ item }) => (
+                  <FeaturedCard
+                    item={item}
+                    onPress={() => handleCardPress(item.$id)}
+                  />
+                )}
+                keyExtractor={(item) => item.$id.toString()}
+                bounces={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerClassName="flex gap-5"
+              />
+            )}
             <View className="flex flex-row items-center justify-between">
               <Text className="text-xl font-rubik-bold text-black-300 mt-5">
                 Our Recommendation
@@ -95,7 +149,7 @@ export default function Index() {
             <Filters />
           </View>
         }
-      ></FlatList>
+      />
     </SafeAreaView>
   );
 }
