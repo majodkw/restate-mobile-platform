@@ -17,7 +17,7 @@ import Filters from "@/components/Filters";
 import seed from "@/lib/seed";
 import { router, useLocalSearchParams } from "expo-router";
 import { useAppwrite } from "@/lib/useAppwrite";
-import { getLastestPorperties } from "@/lib/appwrite";
+import { getLastestPorperties, getProperties } from "@/lib/appwrite";
 import { useEffect } from "react";
 import NoResults from "@/components/NoResults";
 
@@ -35,7 +35,7 @@ export default function Index() {
     loading,
     refetch,
   } = useAppwrite({
-    fn: getLastestPorperties,
+    fn: getProperties,
     params: { filter: params.filter!, query: params.query!, limit: 6 },
     skip: true,
   });

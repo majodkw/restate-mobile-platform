@@ -47,7 +47,7 @@ export const FeaturedCard = ({
             className="text-white font-rubik-bold text-lg mt-2"
             numberOfLines={1}
           >
-            {price}
+            {`$ ${price}`}
           </Text>
           <Image source={icons.heart} className="size-5" />
         </View>
@@ -90,7 +90,7 @@ export const Card = ({
             className="text-primary-300 font-rubik-medium text-base mt-1"
             numberOfLines={1}
           >
-            {price}
+            {`$ ${price}`}
           </Text>
           <Image
             source={icons.heart}
